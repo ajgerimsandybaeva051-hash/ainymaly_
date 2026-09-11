@@ -1,2 +1,2 @@
 # ainymaly_
-dd
+index.html
