@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="kk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Санау жүйелері — интерактивті оқу</title>
+<style>
+:root{--bg:#f5f7fb;--card:#fff;--text:#172033;--muted:#64748b;--primary:#5b5bd6;--primary2:#7c3aed;--good:#16a34a;--bad:#dc2626;--line:#e2e8f0}
+*{box-sizing:border-box}body{margin:0;font-family:Inter,Segoe UI,Arial,sans-serif;background:var(--bg);color:var(--text);line-height:1.55}
+header{background:linear-gradient(135deg,#312e81,#7c3aed);color:#fff;padding:42px 20px 36px}
+.wrap{max-width:1100px;margin:auto}.hero{display:flex;gap:28px;align-items:center;justify-content:space-between}.hero h1{font-size:clamp(30px,5vw,52px);margin:0 0 10px}.hero p{margin:0;color:#e9e7ff;font-size:18px}.badge{background:#ffffff22;border:1px solid #ffffff44;padding:12px 16px;border-radius:16px}
+nav{position:sticky;top:0;z-index:10;background:#fff;border-bottom:1px solid var(--line);box-shadow:0 2px 10px #0000000b}
+.nav{display:flex;gap:8px;overflow:auto;padding:10px 0}.nav button{white-space:nowrap;border:0;background:transparent;padding:10px 14px;border-radius:10px;cursor:pointer;font-weight:600;color:var(--muted)}.nav button.active,.nav button:hover{background:#ede9fe;color:#5b21b6}
+main{padding:30px 20px 60px}.section{display:none}.section.active{display:block}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:18px}.card{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:22px;box-shadow:0 8px 25px #1e293b0a}.card h3{margin-top:0}.term{font-size:34px;font-weight:800;color:var(--primary)}.muted{color:var(--muted)}
+table{width:100%;border-collapse:collapse;background:#fff;border-radius:14px;overflow:hidden}th,td{padding:13px;border-bottom:1px solid var(--line);text-align:left}th{background:#f1f5f9}
+.code{font-family:Consolas,monospace;background:#0f172a;color:#e2e8f0;padding:16px;border-radius:12px;overflow:auto}
+button.primary,.btn{background:linear-gradient(135deg,var(--primary),var(--primary2));color:#fff;border:0;padding:12px 18px;border-radius:11px;cursor:pointer;font-weight:700}.btn.secondary{background:#e2e8f0;color:#334155}
+.converter{display:grid;grid-template-columns:1fr 1fr;gap:18px}.field label{display:block;font-weight:700;margin-bottom:6px}.field input,.field select{width:100%;padding:13px;border:1px solid #cbd5e1;border-radius:10px;font-size:16px}.result{margin-top:18px;padding:18px;border-radius:14px;background:#f1f5f9;font-family:Consolas,monospace;font-size:20px}
+.steps{margin-top:16px}.step{padding:10px 12px;border-left:3px solid #8b5cf6;margin:8px 0;background:#faf5ff}
+.quiz-q{font-size:18px;font-weight:700}.option{display:block;width:100%;text-align:left;margin:9px 0;padding:12px 14px;border:1px solid var(--line);border-radius:10px;background:#fff;cursor:pointer}.option:hover{border-color:#a78bfa;background:#faf5ff}.option.correct{border-color:var(--good);background:#dcfce7}.option.wrong{border-color:var(--bad);background:#fee2e2}.explain{padding:12px;border-radius:10px;background:#f8fafc;margin-top:10px}
+.progress{height:10px;background:#e2e8f0;border-radius:99px;overflow:hidden}.progress>div{height:100%;background:linear-gradient(90deg,#6366f1,#8b5cf6);width:0}
+.flash{perspective:1000px;height:190px;cursor:pointer}.flash-inner{height:100%;transition:.5s;transform-style:preserve-3d;position:relative}.flash.flipped .flash-inner{transform:rotateY(180deg)}.face{position:absolute;inset:0;backface-visibility:hidden;border-radius:18px;display:flex;align-items:center;justify-content:center;text-align:center;padding:25px;background:#fff;border:1px solid var(--line);font-size:25px;font-weight:800}.back{transform:rotateY(180deg);background:#ede9fe;color:#4c1d95}
+footer{text-align:center;color:var(--muted);padding:30px}
+@media(max-width:700px){.converter{grid-template-columns:1fr}.hero{display:block}.badge{margin-top:18px}}
+</style>
+</head>
+<body>
+<header><div class="wrap hero"><div><h1>Санау жүйелері</h1><p>Интерактивті оқу сайты • теория • конвертер • жаттығу • тест</p></div><div class="badge">📘 13 бет оқу материалы негізінде</div></div></header>
+<nav><div class="wrap nav">
+<button class="active" data-tab="home">Басты бет</button><button data-tab="theory">Теория</button><button data-tab="convert">Конвертер</button><button data-tab="practice">Жаттығу</button><button data-tab="quiz">Тест</button><button data-tab="cards">Карточкалар</button>
+</div></nav>
+
+<main class="wrap">
+<section id="home" class="section active">
+<div class="card"><h2>Оқу мақсаты</h2><p>Екілік, сегіздік және он алтылық санау жүйелерін түсіну, сандарды бір жүйеден екіншісіне түрлендіру және компьютер жадындағы екілік/он алтылық кодтардың байланысын меңгеру.</p></div>
+<br><div class="grid">
+<div class="card"><div class="term">2</div><h3>Екілік</h3><p>0 және 1 цифрлары қолданылады. Компьютердің негізгі ішкі тілі.</p></div>
+<div class="card"><div class="term">8</div><h3>Сегіздік</h3><p>0–7 цифрлары. Екілік кодтарды ықшам көрсетуге көмектеседі.</p></div>
+<div class="card"><div class="term">16</div><h3>Он алтылық</h3><p>0–9 және A–F. Әрбір 4 бит бір он алтылық таңбаға сәйкес келеді.</p></div>
+</div>
+<br><div class="card"><h3>Жылдам бастау</h3><button class="btn" onclick="showTab('convert')">Конвертерді ашу →</button> <button class="btn secondary" onclick="showTab('quiz')">Тест тапсыру</button></div>
+</section>
+
+<section id="theory" class="section">
+<h2>Негізгі теория</h2>
+<div class="grid">
+<div class="card"><h3>Санау жүйесі</h3><p>Сандарды жазудың және атаудың ережелер жиынтығы. <b>Негізі</b> — қолданылатын цифрлар саны.</p></div>
+<div class="card"><h3>Позициялық жүйе</h3><p>Санның мәні цифрдың жазылуындағы орнына байланысты болады.</p></div>
+<div class="card"><h3>Компьютер неге 2-лік жүйені қолданады?</h3><p>Электронды компоненттердің жұмысы екі күйге — сигнал бар немесе жоқ — негізделген.</p></div>
+</div>
+<br>
+<table><tr><th>Жүйе</th><th>Цифрлар</th><th>Мысал</th></tr>
+<tr><td>Екілік (2)</td><td>0, 1</td><td>10110₂</td></tr>
+<tr><td>Сегіздік (8)</td><td>0–7</td><td>26₈</td></tr>
+<tr><td>Он алтылық (16)</td><td>0–9, A–F</td><td>1A₁₆</td></tr></table>
+<br><div class="card"><h3>Есте сақта</h3><div class="code">16 = 2⁴  →  4 бит = 1 он алтылық таңба
+1 байт = 8 бит → 1 байт = 2 он алтылық таңба</div></div>
+</section>
+
+<section id="convert" class="section">
+<h2>Санау жүйелері конвертері</h2>
+<div class="card">
+<div class="converter">
+<div class="field"><label>Сан</label><input id="num" value="25" placeholder="Мысалы: 25 немесе 1A"></div>
+<div class="field"><label>Бастапқы жүйе</label><select id="from"><option value="10">Ондық (10)</option><option value="2">Екілік (2)</option><option value="8">Сегіздік (8)</option><option value="16">Он алтылық (16)</option></select></div>
+<div class="field"><label>Мақсатты жүйе</label><select id="to"><option value="2">Екілік (2)</option><option value="10">Ондық (10)</option><option value="8">Сегіздік (8)</option><option value="16" selected>Он алтылық (16)</option></select></div>
+</div>
+<br><button class="primary" onclick="convert()">Түрлендіру</button>
+<div id="result" class="result">Нәтиже осында шығады</div><div id="steps" class="steps"></div>
+</div>
+<br><div class="card"><h3>Мысал</h3><p><b>25₁₀ → 11001₂</b>: 25-ті 2-ге қалдықпен бөлеміз де, қалдықтарды төменнен жоғары оқимыз.</p></div>
+</section>
+
+<section id="practice" class="section">
+<h2>Жаттығулар</h2><div id="practiceList"></div>
+</section>
+
+<section id="quiz" class="section">
+<h2>Білімді тексер</h2><div class="card"><p>Ұпай: <b id="score">0</b> / 8</p><div class="progress"><div id="bar"></div></div></div><br><div id="quizBox"></div>
+</section>
+
+<section id="cards" class="section">
+<h2>Термин карточкалары</h2><p class="muted">Карточканы басып, жауабын көріңіз.</p><div id="cardsGrid" class="grid"></div>
+</section>
+</main>
+<footer>Санау жүйелері • интерактивті оқу материалы</footer>
+
+<script>
+const tabs=document.querySelectorAll('.nav button');
+function showTab(id){document.querySelectorAll('.section').forEach(s=>s.classList.remove('active'));document.getElementById(id).classList.add('active');tabs.forEach(b=>b.classList.toggle('active',b.dataset.tab===id));window.scrollTo({top:0,behavior:'smooth'})}
+tabs.forEach(b=>b.onclick=()=>showTab(b.dataset.tab));
+
+function convert(){
+ const raw=document.getElementById('num').value.trim(), from=+document.getElementById('from').value,to=+document.getElementById('to').value;
+ const r=document.getElementById('result'), st=document.getElementById('steps'); st.innerHTML='';
+ if(!raw){r.textContent='Сан енгізіңіз';return}
+ let n=parseInt(raw,from); if(Number.isNaN(n)||n<0||!/^[0-9A-Fa-f]+$/.test(raw)){r.textContent='Сан қате енгізілді';return}
+ const ans=n.toString(to).toUpperCase(); r.textContent=`${raw.toUpperCase()}₍${from}₎ = ${ans}₍${to}₎`;
+ if(from===10 && [2,8,16].includes(to)){
+   let x=n, i=1; if(x===0) st.innerHTML='<div class="step">0 → 0</div>';
+   while(x>0){let q=Math.floor(x/to),rem=x%to;let sym=rem>=10?String.fromCharCode(55+rem):rem;st.innerHTML+=`<div class="step">${i++}. ${x} ÷ ${to} = ${q}, қалдық ${sym}</div>`;x=q}
+   st.innerHTML+=`<div class="step"><b>Қалдықтарды кері ретпен оқыңыз:</b> ${ans}</div>`;
+ } else if(from===2 && to===16){
+   let padded=raw.padStart(Math.ceil(raw.length/4)*4,'0'), groups=padded.match(/.{4}/g);
+   st.innerHTML=`<div class="step">4 биттен топтаймыз: ${groups.join(' | ')}</div>`;
+   st.innerHTML+=`<div class="step">Әр топ → бір HEX таңба: ${ans}</div>`;
+ } else if(from===16 && to===2){
+   st.innerHTML=`<div class="step">Әр HEX таңбаны 4 битке ауыстырамыз.</div><div class="step">${[...raw.toUpperCase()].map(c=>parseInt(c,16).toString(2).padStart(4,'0')).join(' ')}</div>`;
+ } else {
+   st.innerHTML='<div class="step">Нәтиже позициялық жүйе ережесі бойынша есептелді.</div>';
+ }
+}
+
+const practice=[
+['25₁₀ → 2-лік','11001₂'],['42₁₀ → 2-лік','101010₂'],['128₁₀ → 2-лік','10000000₂'],['255₁₀ → 2-лік','11111111₂'],
+['512₁₀ → 2-лік','1000000000₂'],['156₁₀ → 16-лық','9C₁₆'],['250₁₀ → 16-лық','FA₁₆'],['1000₁₀ → 16-лық','3E8₁₆'],
+['11011010₂ → 16-лық','DA₁₆'],['10111100₂ → 16-лық','BC₁₆'],['A3₁₆ → 2-лік','10100011₂'],['F5₁₆ → 2-лік','11110101₂']];
+document.getElementById('practiceList').innerHTML=practice.map((p,i)=>`<div class="card" style="margin-bottom:12px"><h3>${i+1}. ${p[0]}</h3><button class="btn secondary" onclick="this.nextElementSibling.hidden=!this.nextElementSibling.hidden">Жауабын көрсету</button><p hidden><b>Жауабы: ${p[1]}</b></p></div>`).join('');
+
+const qs=[
+['Неліктен компьютер екілік жүйені пайдаланады?',['Онда тек екі күйді көрсету ыңғайлы','Ол барлық сандарды қысқартады','Ол тек интернетте қолданылады','Онда әріптер жоқ'],0,'Электронды компоненттер екі күйге — сигнал бар/жоқ — негізделген.'],
+['HEX жүйесінде A қандай сан?',['9','10','11','12'],1,'A = 10.'],
+['16-лық жүйеде қандай таңбалар қолданылады?',['0–7','0–9 және A–F','Тек 0 және 1','1–16'],1,'10–15 мәндері A–F әріптерімен белгіленеді.'],
+['4 бит неге тең?',['1 байт','1 он алтылық таңба','2 байт','8 он алтылық таңба'],1,'Әрбір HEX таңба 4 битті білдіреді.'],
+['25₁₀ санының екілік түрі қандай?',['10011','11001','10101','11100'],1,'25/2 қалдықтары кері ретпен оқылса 11001 шығады.'],
+['156₁₀ санының HEX түрі қандай?',['9C','AC','F6','8C'],0,'156 = 9×16 + 12, ал 12 = C.'],
+['11011010₂ санының HEX түрі қандай?',['AB','DA','BC','D1'],1,'1101 = D, 1010 = A.'],
+['1011 1100 1010 0001 санын HEX-ке ең жылдам қалай ауыстырамыз?',['Ондық арқылы','8-дік арқылы','4 биттен топтап','Әр 1-ді 16-ға көбейтіп'],2,'Әр 4 битті бір HEX таңбаға ауыстыру керек.']
+];
+let score=0,answered=new Set();
+function renderQuiz(){
+ document.getElementById('quizBox').innerHTML=qs.map((q,i)=>`<div class="card" style="margin-bottom:16px"><div class="quiz-q">${i+1}. ${q[0]}</div>${q[1].map((o,j)=>`<button class="option" onclick="answer(${i},${j},this)">${String.fromCharCode(65+j)}) ${o}</button>`).join('')}<div id="exp${i}" class="explain" hidden></div></div>`).join('');
+}
+function answer(i,j,el){
+ if(answered.has(i))return; answered.add(i); const ok=j===qs[i][2]; if(ok)score++;
+ document.getElementById('score').textContent=score;document.getElementById('bar').style.width=(score/8*100)+'%';
+ el.classList.add(ok?'correct':'wrong');if(!ok)el.parentElement.querySelectorAll('.option')[qs[i][2]].classList.add('correct');
+ const e=document.getElementById('exp'+i);e.hidden=false;e.innerHTML=(ok?'✅ Дұрыс! ':'❌ Қате. ')+qs[i][3];
+}
+renderQuiz();
+
+const cards=[['Санау жүйесі','Сандарды жазудың және атаудың ережелер жиынтығы.'],['Негіз','Қолданылатын цифрлар саны.'],['Позициялық жүйе','Цифр мәні оның орнына байланысты болатын жүйе.'],['Екілік жүйе','0 және 1 цифрларынан тұрады.'],['Он алтылық жүйе','0–9 және A–F таңбалары қолданылады.'],['Тетрада','4 биттен тұратын топ; бір HEX таңбасына сәйкес келеді.'],['1 байт','8 бит. Сондықтан 2 HEX таңбамен көрсетуге болады.'],['Жаю әдісі','Санды разрядтардың қосындысы арқылы ондыққа айналдыру тәсілі.']];
+document.getElementById('cardsGrid').innerHTML=cards.map(c=>`<div class="flash" onclick="this.classList.toggle('flipped')"><div class="flash-inner"><div class="face">${c[0]}</div><div class="face back">${c[1]}</div></div></div>`).join('');
+convert();
+</script>
+</body>
+</html>
